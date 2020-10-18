@@ -1,27 +1,23 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
+
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
+import {Location} from './src/locations';
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Text>Location App</Text>
-        </ScrollView>
-      </SafeAreaView>
+      <Provider store={store}>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <Location />
+        </SafeAreaView>
+      </Provider>
     </>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export {App};
