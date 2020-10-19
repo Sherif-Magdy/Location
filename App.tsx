@@ -3,7 +3,7 @@ import {SafeAreaView, StatusBar} from 'react-native';
 
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
-import {Location} from './src/locations';
+import {Location} from './src/locations-screen';
 
 declare const global: {HermesInternal: null | {}};
 
