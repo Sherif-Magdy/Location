@@ -1,9 +1,11 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
-import {countryReducer} from './country/country-reducer';
+import { countryReducer } from './country/country-reducer';
+import { cityReducer } from './city/city-reducer';
 
 const rootReducer = combineReducers({
-  countryReducer,
+    countryReducer,
+    cityReducer
 });
 
-export {rootReducer};
+export { rootReducer };
