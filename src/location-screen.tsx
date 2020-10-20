@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import DropDownPickerComponnent from './redux/drop-down-picker-component';
+import DropDownPickerComponnent from './drop-down-picker-component';
 
 import { fetchCountries } from './redux/country/country-actions';
 import { City, Country } from './types/location';
