@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DropDownPickerComponnent from './drop-down-picker-component';
 
@@ -38,6 +38,12 @@ const Location = () => {
         }));
     };
 
+    const setPickerVisibility = (countryPicker: boolean, cityPicker: boolean, areaPicker: boolean) => {
+        setVisibleCountryPicker(countryPicker);
+        setVisibleCityPicker(cityPicker);
+        setVisibleAreaPicker(areaPicker);
+    };
+
     const countries = useSelector(state => generatePickerItems(state.countryReducer.countries));
 
     const cities = useSelector(state => generatePickerItems(state.cityReducer.cities));
@@ -61,7 +67,7 @@ const Location = () => {
     }, [dispatch, selectedCountry, selectedCity.id, selectedCity]);
 
     return (
-        <>
+        <View style={styles.container}>
             <View style={styles.countryContainer}>
                 <DropDownPickerComponnent
                     title="Country"
@@ -69,20 +75,16 @@ const Location = () => {
                     errorMsg={selectedCountry === defaultItem ? 'Please select country' : null}
                     items={countries}
                     isVisible={visibleCountryPicker}
-                    onOpen={() => {
-                        setVisibleCountryPicker(true);
-                        setVisibleCityPicker(false);
-                        setVisibleAreaPicker(false);
-                    }}
+                    onOpen={() => setPickerVisibility(true, false, false)}
                     onClose={() => setVisibleCountryPicker(false)}
                     onChangeItem={item => {
                         setSelectedCountry(item);
                         setSelectedCity(defaultItem);
+                        setSelectedArea(defaultItem);
                         cityPickerController.state.choice = { label: null, value: null };
                     }}
                 />
             </View>
-
             <View style={styles.cityContainer}>
                 <DropDownPickerComponnent
                     controller={instance => (cityPickerController = instance)}
@@ -93,11 +95,7 @@ const Location = () => {
                     }
                     items={cities}
                     isVisible={visibleCityPicker}
-                    onOpen={() => {
-                        setVisibleCityPicker(true);
-                        setVisibleCountryPicker(false);
-                        setVisibleAreaPicker(false);
-                    }}
+                    onOpen={() => setPickerVisibility(false, true, false)}
                     onClose={() => setVisibleCityPicker(false)}
                     onChangeItem={item => {
                         setSelectedCity(item);
@@ -107,7 +105,6 @@ const Location = () => {
                     }}
                 />
             </View>
-
             {selectedCountry.label === 'Egypt' && selectedCity !== defaultItem && (
                 <View style={styles.areaContainer}>
                     <DropDownPickerComponnent
@@ -116,30 +113,30 @@ const Location = () => {
                         placeholder="Select Area"
                         items={areas}
                         isVisible={visibleAreaPicker}
-                        onOpen={() => {
-                            setVisibleAreaPicker(true);
-                            setVisibleCountryPicker(false);
-                            setVisibleCityPicker(false);
-                        }}
+                        onOpen={() => setPickerVisibility(false, false, true)}
                         onClose={() => setVisibleAreaPicker(false)}
                         onChangeItem={item => setSelectedArea(item)}
                     />
                 </View>
             )}
-        </>
+        </View>
     );
 };
 
 export { Location };
 
 const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+        zIndex: 999
+    },
     countryContainer: {
-        zIndex: 10
+        zIndex: Platform.select({ ios: 10 })
     },
     cityContainer: {
-        zIndex: 9
+        zIndex: Platform.select({ ios: 9 })
     },
     areaContainer: {
-        zIndex: 8
+        zIndex: Platform.select({ ios: 8 })
     }
 });
