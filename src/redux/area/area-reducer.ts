@@ -27,7 +27,7 @@ const areaReducer: Reducer<areaState, FluxStandardAction<string, any>> = (state 
             return {
                 ...state,
                 loading: false,
-                areas: action.payload
+                areas: { ...state.areas, ...action.payload.area }
             };
 
         case FETCH_AREAS_FAILURE:

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import normalize from 'json-api-normalizer';
 
 import { baseURL } from '../../../constant';
 import { Country } from '../../types/location';
@@ -28,7 +29,7 @@ export const fetchCountries = () => {
         return axios
             .get(`${baseURL}/countries`)
             .then(response => {
-                dispatch(fetchCountriesSuccess(response.data.data));
+                dispatch(fetchCountriesSuccess(normalize(response.data)));
             })
             .catch(error => {
                 dispatch(fetchCountriesFailure(error.message));

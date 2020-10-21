@@ -27,7 +27,7 @@ const countryReducer: Reducer<countryState, FluxStandardAction<string, any>> = (
             return {
                 ...state,
                 loading: false,
-                countries: action.payload
+                countries: action.payload.country
             };
 
         case FETCH_COUNTRIES_FAILURE:

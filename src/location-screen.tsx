@@ -44,27 +44,50 @@ const Location = () => {
         setVisibleAreaPicker(areaPicker);
     };
 
-    const countries = useSelector(state => generatePickerItems(state.countryReducer.countries));
+    const countries = useSelector(state => {
+        const newCountries = state.countryReducer.countries;
+        return generatePickerItems(Object.values(newCountries));
+    });
 
-    const cities = useSelector(state => generatePickerItems(state.cityReducer.cities));
+    const cities = useSelector(state => {
+        const newCities = state.cityReducer.cities;
+        if (newCities) {
+            return generatePickerItems(
+                Object.values(newCities).filter(city => {
+                    return city.relationships.country.data.id === selectedCountry.id;
+                })
+            );
+        }
+        return [];
+    });
 
-    const areas = useSelector(state => generatePickerItems(state.areaReducer.areas));
+    const areas = useSelector(state => {
+        const newAreas = state.areaReducer.areas;
+        if (newAreas) {
+            return generatePickerItems(
+                Object.values(newAreas).filter(area => {
+                    return area.relationships.city.data.id === selectedCity.id;
+                })
+            );
+        }
+        return [];
+    });
 
     useEffect(() => {
         dispatch(fetchCountries());
     }, [dispatch]);
 
     useEffect(() => {
-        if (selectedCountry !== defaultItem) {
+        if (selectedCountry !== defaultItem && cities.length === 0) {
             dispatch(fetchCities(selectedCountry?.id));
         }
-    }, [dispatch, selectedCountry]);
+    }, [cities.length, dispatch, selectedCountry]);
 
     useEffect(() => {
-        if (selectedCity !== defaultItem) {
+        if (selectedCity !== defaultItem && areas.length === 0) {
             dispatch(fetchAreas(selectedCountry?.id, selectedCity.id));
         }
-    }, [dispatch, selectedCountry, selectedCity.id, selectedCity]);
+    }, [dispatch, selectedCountry, selectedCity.id, selectedCity, areas.length]);
 
     return (
         <View style={styles.container}>

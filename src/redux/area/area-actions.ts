@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
+import normalize from 'json-api-normalizer';
 
 import { baseURL } from '../../../constant';
 import { Area } from '../../types/location';
@@ -24,6 +25,6 @@ export const fetchAreas = (countryId: string, cityId: string) => (dispatch: Disp
     dispatch(fetchAreasRequest());
     return axios
         .get(`${baseURL}/country/${countryId}/city/${cityId}/area`)
-        .then(response => dispatch(fetchAreasSuccess(response.data.data)))
+        .then(response => dispatch(fetchAreasSuccess(normalize(response.data))))
         .catch(error => dispatch(fetchAreasFailure(error.message)));
 };

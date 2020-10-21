@@ -23,12 +23,13 @@ const cityReducer: Reducer<cityState, FluxStandardAction<string, any>> = (state 
                 loading: true
             };
 
-        case FETCH_CITIES_SUCCESS:
+        case FETCH_CITIES_SUCCESS: {
             return {
                 ...state,
                 loading: false,
-                cities: action.payload
+                cities: { ...state.cities, ...action.payload.city }
             };
+        }
 
         case FETCH_CITIES_FAILURE:
             return {
