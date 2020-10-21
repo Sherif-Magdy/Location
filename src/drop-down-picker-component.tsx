@@ -4,6 +4,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 interface DropDownPickerComponnentProps {
     title: string;
+    errorMsg?: string | null;
 }
 
 const DropDownPickerComponnent = (props: DropDownPickerComponnentProps & DropDownPicker) => {
@@ -25,6 +26,7 @@ const DropDownPickerComponnent = (props: DropDownPickerComponnentProps & DropDow
                 // activeLabelStyle={{}}
                 {...props}
             />
+            {props.errorMsg && <Text style={styles.errorMsgStyle}>{props.errorMsg}</Text>}
         </View>
     );
 };
@@ -39,6 +41,10 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: '600',
         marginBottom: 10
+    },
+    errorMsgStyle: {
+        color: 'red',
+        marginTop: 10
     },
     dropDownnStyle: { backgroundColor: '#777777', height: 300 },
     containerStyle: { height: 40 },

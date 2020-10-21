@@ -1,40 +1,40 @@
 import { FluxStandardAction } from 'flux-standard-action';
 import { Reducer } from 'redux';
 
-import { FETCH_COUNTRIES_REQUEST, FETCH_COUNTRIES_SUCCESS, FETCH_COUNTRIES_FAILURE } from './country-types';
+import { FETCH_AREAS_REQUEST, FETCH_AREAS_SUCCESS, FETCH_AREAS_FAILURE } from './area-types';
 
 const initialState = {
     loading: false,
-    countries: [],
+    areas: [],
     error: null
 };
 
-export interface countryState {
+export interface areaState {
     loading: boolean;
-    countries: string[];
+    areas: string[];
     error: string | null;
 }
 
-const countryReducer: Reducer<countryState, FluxStandardAction<string, any>> = (state = initialState, action) => {
+const areaReducer: Reducer<areaState, FluxStandardAction<string, any>> = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_COUNTRIES_REQUEST:
+        case FETCH_AREAS_REQUEST:
             return {
                 ...state,
                 loading: true
             };
 
-        case FETCH_COUNTRIES_SUCCESS:
+        case FETCH_AREAS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                countries: action.payload
+                areas: action.payload
             };
 
-        case FETCH_COUNTRIES_FAILURE:
+        case FETCH_AREAS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                countries: [],
+                areas: [],
                 error: action.payload
             };
 
@@ -43,4 +43,4 @@ const countryReducer: Reducer<countryState, FluxStandardAction<string, any>> = (
     }
 };
 
-export { countryReducer };
+export { areaReducer };

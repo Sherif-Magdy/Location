@@ -2,7 +2,7 @@ import { JsonApiObject } from './json-api';
 
 export interface Country extends JsonApiObject {
     id: string;
-    type: string;
+    type: 'country';
     attributes: {
         name: string;
     };
@@ -10,7 +10,7 @@ export interface Country extends JsonApiObject {
 
 export interface City extends JsonApiObject {
     id: string;
-    type: string;
+    type: 'city';
     attributes: {
         name: string;
     };
@@ -21,5 +21,22 @@ export interface City extends JsonApiObject {
                 type: 'country';
             };
         };
+    };
+}
+
+export interface Area extends JsonApiObject {
+    id: string;
+    type: 'area';
+    attributes: {
+        name: string;
+    };
+    relationships: {
+        city: {
+            data: {
+                id: string;
+                type: 'city';
+            };
+        };
+        w;
     };
 }
