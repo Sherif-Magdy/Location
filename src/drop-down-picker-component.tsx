@@ -14,7 +14,7 @@ const DropDownPickerComponnent = (props: DropDownPickerComponnentProps & DropDow
             <DropDownPicker
                 searchable
                 dropDownMaxHeight={300}
-                searchablePlaceholderTextColor="yellow"
+                searchablePlaceholderTextColor="#068778"
                 dropDownStyle={styles.dropDownnStyle}
                 containerStyle={styles.containerStyle}
                 style={styles.headerStyle}
@@ -22,8 +22,6 @@ const DropDownPickerComponnent = (props: DropDownPickerComponnentProps & DropDow
                 labelStyle={styles.labelStyle}
                 selectedLabelStyle={styles.selectedLabelStyle}
                 placeholderStyle={styles.placeholderStyle}
-                // activeItemStyle={{}}
-                // activeLabelStyle={{}}
                 {...props}
             />
             {props.errorMsg && <Text style={styles.errorMsgStyle}>{props.errorMsg}</Text>}
@@ -46,13 +44,13 @@ const styles = StyleSheet.create({
         color: 'red',
         marginTop: 10
     },
-    dropDownnStyle: { backgroundColor: '#777777', height: 300 },
+    dropDownnStyle: { backgroundColor: '#edf8f9', height: 300 },
     containerStyle: { height: 40 },
     headerStyle: { backgroundColor: '#f7f7f7' },
     itemStyle: {
         justifyContent: 'flex-start'
     },
-    labelStyle: { color: '#fff' },
-    selectedLabelStyle: { color: '#0745ff', fontSize: 15 },
+    labelStyle: { color: '#030f6b' },
+    selectedLabelStyle: { color: '#1554f2', fontSize: 15, fontWeight: '500' },
     placeholderStyle: { color: '#8fa0b4' }
 });
