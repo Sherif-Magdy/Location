@@ -84,10 +84,12 @@ const Location = () => {
     }, [cities.length, dispatch, selectedCountry]);
 
     useEffect(() => {
-        if (selectedCity !== defaultItem && areas.length === 0) {
+        if (selectedCountry.label === 'Egypt' && selectedCity !== defaultItem && areas.length === 0) {
             dispatch(fetchAreas(selectedCountry?.id, selectedCity.id));
         }
     }, [dispatch, selectedCountry, selectedCity.id, selectedCity, areas.length]);
+
+    console.log({ selectedCity, areas, selectedCountry });
 
     return (
         <View style={styles.container}>
@@ -108,6 +110,7 @@ const Location = () => {
                     }}
                 />
             </View>
+
             <View style={styles.cityContainer}>
                 <DropDownPickerComponnent
                     controller={instance => (cityPickerController = instance)}
@@ -128,6 +131,7 @@ const Location = () => {
                     }}
                 />
             </View>
+
             {selectedCountry.label === 'Egypt' && selectedCity !== defaultItem && (
                 <View style={styles.areaContainer}>
                     <DropDownPickerComponnent
