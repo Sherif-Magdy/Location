@@ -37,6 +37,5 @@ export interface Area extends JsonApiObject {
                 type: 'city';
             };
         };
-        w;
     };
 }

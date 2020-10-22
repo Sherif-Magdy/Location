@@ -6,6 +6,7 @@ import DropDownPickerComponnent from './drop-down-picker-component';
 import { fetchCountries } from './redux/country/country-actions';
 import { fetchCities } from './redux/city/city-actions';
 import { fetchAreas } from './redux/area/area-actions';
+import { State } from './redux/rootReducer';
 
 interface DropDownItemsType {
     id: string;
@@ -28,8 +29,8 @@ const Location = () => {
     const [selectedArea, setSelectedArea] = useState<DropDownItemsType>(defaultItem);
     const [visibleAreaPicker, setVisibleAreaPicker] = useState(false);
 
-    let cityPickerController;
-    let areaPickerController;
+    let cityPickerController: object;
+    let areaPickerController: object;
 
     const generatePickerItems = items => {
         return items.map(item => ({
@@ -44,12 +45,12 @@ const Location = () => {
         setVisibleAreaPicker(areaPicker);
     };
 
-    const countries = useSelector(state => {
+    const countries = useSelector((state: State) => {
         const newCountries = state.countryReducer.countries;
         return generatePickerItems(Object.values(newCountries));
     });
 
-    const cities = useSelector(state => {
+    const cities = useSelector((state: State) => {
         const newCities = state.cityReducer.cities;
         if (newCities) {
             return generatePickerItems(
@@ -61,7 +62,7 @@ const Location = () => {
         return [];
     });
 
-    const areas = useSelector(state => {
+    const areas = useSelector((state: State) => {
         const newAreas = state.areaReducer.areas;
         if (newAreas) {
             return generatePickerItems(
@@ -73,23 +74,24 @@ const Location = () => {
         return [];
     });
 
+    /* fetch the list of all countries */
     useEffect(() => {
         dispatch(fetchCountries());
     }, [dispatch]);
 
+    /* fetch the list of cities for the provided country */
     useEffect(() => {
         if (selectedCountry !== defaultItem && cities.length === 0) {
             dispatch(fetchCities(selectedCountry?.id));
         }
     }, [cities.length, dispatch, selectedCountry]);
 
+    /* fetch the list of areas for the provided city */
     useEffect(() => {
         if (selectedCountry.label === 'Egypt' && selectedCity !== defaultItem && areas.length === 0) {
             dispatch(fetchAreas(selectedCountry?.id, selectedCity.id));
         }
     }, [dispatch, selectedCountry, selectedCity.id, selectedCity, areas.length]);
-
-    console.log({ selectedCity, areas, selectedCountry });
 
     return (
         <View style={styles.container}>

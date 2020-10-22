@@ -10,4 +10,6 @@ const rootReducer = combineReducers({
     areaReducer
 });
 
+export type State = ReturnType<typeof rootReducer>;
+
 export { rootReducer };
