@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DropDownPickerComponnent from './drop-down-picker-component';
 
@@ -93,6 +93,8 @@ const Location = () => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.titleStyle}>LOCATION</Text>
+
             <View style={styles.countryContainer}>
                 <DropDownPickerComponnent
                     title="Country"
@@ -156,6 +158,12 @@ const styles = StyleSheet.create({
     container: {
         height: '100%',
         zIndex: 999
+    },
+    titleStyle: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: '600',
+        margin: 15
     },
     countryContainer: {
         zIndex: Platform.select({ ios: 10 })
