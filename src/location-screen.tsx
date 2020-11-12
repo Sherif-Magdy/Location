@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, Platform, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DropDownPickerComponnent from './drop-down-picker-component';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { fetchCountries } from './redux/country/country-actions';
 import { fetchCities } from './redux/city/city-actions';
@@ -11,10 +12,12 @@ import { State } from './redux/rootReducer';
 interface DropDownItemsType {
     id: string;
     label: string;
+    value: string;
 }
 const defaultItem = {
     id: '',
-    label: ''
+    label: '',
+    value: ''
 };
 
 const Location = () => {
@@ -28,14 +31,23 @@ const Location = () => {
 
     const [selectedArea, setSelectedArea] = useState<DropDownItemsType>(defaultItem);
     const [visibleAreaPicker, setVisibleAreaPicker] = useState(false);
-
     let cityPickerController: object;
     let areaPickerController: object;
+
+    const getSavedCountry = useCallback(async () => {
+        try {
+            const valueString: string | null = await AsyncStorage.getItem('savedCountry');
+            if (valueString) {
+                setSelectedCountry(JSON.parse(valueString));
+            }
+        } catch {}
+    }, []);
 
     const generatePickerItems = items => {
         return items.map(item => ({
             id: item.id,
-            label: item.attributes.name
+            label: item.attributes.name,
+            value: item.attributes.name
         }));
     };
 
@@ -76,8 +88,8 @@ const Location = () => {
 
     /* fetch the list of all countries */
     useEffect(() => {
-        dispatch(fetchCountries());
-    }, [dispatch]);
+        dispatch(fetchCountries()).then(() => getSavedCountry());
+    }, [dispatch, getSavedCountry]);
 
     /* fetch the list of cities for the provided country */
     useEffect(() => {
@@ -106,7 +118,9 @@ const Location = () => {
                     isVisible={visibleCountryPicker}
                     onOpen={() => setPickerVisibility(true, false, false)}
                     onClose={() => setVisibleCountryPicker(false)}
+                    defaultValue={selectedCountry?.value}
                     onChangeItem={item => {
+                        AsyncStorage.setItem('savedCountry', JSON.stringify(item));
                         setSelectedCountry(item);
                         setSelectedCity(defaultItem);
                         setSelectedArea(defaultItem);

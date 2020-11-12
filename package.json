@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.2",
     "axios": "^0.20.0",
     "json-api-normalizer": "^1.0.0",
     "react": "16.13.1",
